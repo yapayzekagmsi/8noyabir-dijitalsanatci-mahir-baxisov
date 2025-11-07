@@ -1,0 +1,1 @@
+# 8noyabir-dijitalsanatci-mahir-baxisov
