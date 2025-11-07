@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Noyabr - Azərbaycan Zəfər Günü</title>
+    <!-- Tailwind CSS Yüklənməsi -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome İkonları Yüklənməsi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Inter Fontu standart olaraq istifadə et */
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Azərbaycan Bayrağı rəngləri üçün xüsusi CSS dəyişənləri */
+        .color-blue { color: #009DE0; } /* Göy Mavi */
+        .color-red { color: #E52E4D; }  /* Qırmızı */
+        .color-green { color: #509D2D; } /* Yaşıl */
+        
+        .hero-bg {
+            /* Yüksək keyfiyyətli modern görünüş üçün fon qradient */
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+        .stat-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card:hover {
+            /* Hover effekti - daha canlı parıltı */
+            box-shadow: 0 0 20px rgba(229, 46, 77, 0.4); /* Qırmızı çalarda parıltı */
+            border-color: #E52E4D;
+        }
+        .stat-card-blue:hover {
+            box-shadow: 0 0 20px rgba(0, 157, 224, 0.4); /* Mavi çalarda parıltı */
+            border-color: #009DE0;
+        }
+        /* Qalereya Şəkilləri üçün kraft effekti */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: #E52E4D;
+            box-shadow: 0 10px 30px rgba(229, 46, 77, 0.6);
+        }
+        .placeholder-text {
+            /* Yer tutucunun üzərindəki mətn üçün stil */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 8px #000;
+        }
+    </style>
+</head>
+<body class="hero-bg text-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Firebase SDK'ları Yüklənir - (Mühit tələbi) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Canvas mühitindən qlobal dəyişənləri al və Firebase-i başlat
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let firebaseConfig = null;
+        try {
+            // __firebase_config qlobal dəyişəni JSON string olaraq gəlir
+            firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        } catch (e) {
+            console.error("Firebase config parse xətası:", e);
+        }
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app;
+        let db;
+        let auth;
+        
+        if (firebaseConfig && Object.keys(firebaseConfig).length > 0) {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            // İstifadəçi təsdiqini həyata keçir
+            (async () => {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Xüsusi təsdiq tokeni ilə daxil olundu.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Anonim olaraq daxil olundu.");
+                    }
+                } catch (error) {
+                    console.error("Firebase Təsdiq Xətası:", error);
+                }
+            })();
+        } else {
+            console.warn("Firebase konfiqurasiyası əskikdir. Verilənlər bazası əməliyyatları yerinə yetirilə bilməyəcək.");
+        }
+    </script>
+
+    <!-- Ana Məzmun Sahəsi -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-5xl bg-gray-800 p-8 md:p-12 rounded-2xl shadow-2xl text-center border-t-8 border-red-600/70">
+
+            <!-- Başlıq -->
+            <header class="mb-12">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-3 color-blue leading-tight">
+                    8 NOYABR ŞUŞA ZƏFƏRİ
+                </h1>
+                <h2 class="text-3xl md:text-5xl font-light color-red">
+                    AZƏRBAYCANIN <span class="font-bold color-green">QALİBİYYƏT GÜNÜ</span>
+                </h2>
+                <div class="flex justify-center items-center space-x-3 mt-6">
+                    <i class="fas fa-hand-fist text-yellow-400 text-2xl animate-pulse"></i>
+                    <p class="text-xl text-gray-300 font-medium tracking-wider">Dəmir Yumruq, Tək Millət!</p>
+                    <i class="fas fa-hand-fist text-yellow-400 text-2xl animate-pulse"></i>
+                </div>
+            </header>
+
+            <!-- Zəfər və Şəhid Mesajı (Universitet Səviyyəsi Mətn) -->
+            <section class="mb-12 p-8 bg-gray-700/50 backdrop-blur-sm rounded-xl shadow-xl border border-gray-700">
+                <p class="text-xl md:text-2xl font-semibold mb-6 color-blue leading-relaxed">
+                    Bu şanlı gün, Azərbaycan xalqının əzminin, birliyinin və qəhrəmanlıq dastanının zirvə nöqtəsidir. 44 günlük Vətən Müharibəsində, torpaq bütövlüyümüzün yenidən təsisi uğrunda canlarını fəda edən <span class="color-red font-extrabold">qəhrəmanlarımızı</span> rəhmətlə və sonsuz minnətdarlıqla anırıq. Onların mirası, dövlətimizin əbədi təminatıdır.
+                </p>
+                <p class="text-lg md:text-xl text-gray-300 italic font-light">
+                    "Şəhidlər ölməz, Vətən bölünməz!" - Qarabağ Azərbaycandır!
+                </p>
+            </section>
+            
+            <!-- Vətən Müharibəsi Şəhid və Qazi Statistikaları -->
+            <section class="mb-12">
+                <h3 class="text-3xl font-bold mb-8 color-green border-b border-gray-700 pb-3">
+                    Vətən Müharibəsinin Şanlı Rəqəmləri
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Şəhid Sayı Kartı -->
+                    <div class="stat-card bg-gray-700 p-8 rounded-xl stat-shadow flex flex-col items-center border-l-4 border-red-500 transition-all duration-300 hover:scale-[1.02] hover:ring-2 hover:ring-red-500">
+                        <i class="fas fa-medal text-6xl text-red-400 mb-4 animate-pulse"></i>
+                        <p class="text-5xl font-extrabold color-red mb-2">2908+</p>
+                        <p class="text-xl font-semibold text-gray-300">Rəsmi Açıqlanan Şəhid Sayı</p>
+                        <p class="text-sm text-gray-400 mt-2">
+                            Torpaq bütövlüyümüz uğrunda canlarını fəda edən əziz ruhlar. Onların qəhrəmanlığı əbədidir.
+                        </p>
+                    </div>
+
+                    <!-- Qazi Sayı və Dəstək Kartı -->
+                    <div class="stat-card stat-card-blue bg-gray-700 p-8 rounded-xl stat-shadow flex flex-col items-center border-l-4 border-blue-500 transition-all duration-300 hover:scale-[1.02] hover:ring-2 hover:ring-blue-500">
+                        <i class="fas fa-ribbon text-6xl text-blue-400 mb-4 animate-pulse"></i>
+                        <p class="text-5xl font-extrabold color-blue mb-2">11.000+</p>
+                        <p class="text-xl font-semibold text-gray-300">Yaralı və Qazi Sayı</p>
+                        <p class="text-sm text-gray-400 mt-2">
+                            Müharibədə yaralanan, sağlamlıqlarını Vətən üçün qurban verən qəhrəman qazilərimiz və hərbi əlillərimiz.
+                        </p>
+                    </div>
+
+                </div>
+                <!-- Bayraq Rəngləri ilə Sembolik Göstərim -->
+                <div class="mt-8">
+                    <div class="h-16 w-full flex rounded-xl overflow-hidden shadow-2xl border-2 border-white/10">
+                        <div class="bg-blue-500 w-1/3 flex items-center justify-center">
+                            <i class="fas fa-moon text-white text-2xl"></i>
+                        </div>
+                        <div class="bg-red-600 w-1/3 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-3xl"></i>
+                        </div>
+                        <div class="bg-green-500 w-1/3 flex items-center justify-center">
+                            <i class="fas fa-flag text-white text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Zəfər Anları Qalereyası (Yeni Bölmə) -->
+            <section class="mb-12 pt-6 border-t-2 border-gray-700">
+                <h3 class="text-3xl font-bold mb-8 color-red border-b border-gray-700 pb-3">
+                    44 Günlük Mübarizə: Zəfər Anları Qalereyası
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Placeholder 1: Şuşanın azadlığı simvolu -->
+                    <div class="gallery-item rounded-xl bg-gray-700 shadow-xl aspect-video relative">
+                        <!-- Şəkil yer tutucusu (Placeholder image) -->
+                        <img src="https://placehold.co/800x600/111827/a5f3fc?text=ŞUŞA+ZƏFƏRİ" alt="Şuşa Zəfəri təmsili şəkli" class="w-full h-full object-cover rounded-xl opacity-70">
+                        <span class="placeholder-text text-yellow-400 text-3xl">ŞUŞA ALINDI!</span>
+                    </div>
+
+                    <!-- Placeholder 2: Bayrağın ucaldılması simvolu -->
+                    <div class="gallery-item rounded-xl bg-gray-700 shadow-xl aspect-video relative">
+                        <!-- Şəkil yer tutucusu (Placeholder image) -->
+                        <img src="https://placehold.co/800x600/1f2937/a5f3fc?text=AZƏRBAYCAN+BAYRAĞI" alt="Bayrağın ucaldılması təmsili şəkli" class="w-full h-full object-cover rounded-xl opacity-70">
+                        <span class="placeholder-text text-white text-3xl">BAYRAĞIMIZ</span>
+                    </div>
+
+                    <!-- Placeholder 3: Qəhrəman əsgərlər simvolu -->
+                    <div class="gallery-item rounded-xl bg-gray-700 shadow-xl aspect-video relative">
+                        <!-- Şəkil yer tutucusu (Placeholder image) -->
+                        <img src="https://placehold.co/800x600/374151/a5f3fc?text=QƏHRƏMAN+ƏSGƏRLƏRİMİZ" alt="Qəhrəman Əsgərlərimiz təmsili şəkli" class="w-full h-full object-cover rounded-xl opacity-70">
+                        <span class="placeholder-text text-green-400 text-3xl">QƏHRƏMANLIQ</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Müəllif Məlumatları (Şəxsi Müraciət) -->
+            <section class="mt-12 pt-6 border-t-2 border-gray-700">
+                <h3 class="text-2xl font-bold mb-4 color-blue border-b border-gray-700 pb-2">
+                    Müəllifdən Şəxsi Müraciət
+                </h3>
+                <div class="bg-gray-700/70 p-6 rounded-xl inline-block shadow-2xl border border-red-500/50">
+                    <p class="text-3xl font-extrabold color-red mb-3 tracking-wide">
+                        Mahir Baxisov
+                    </p>
+                    <p class="text-lg text-gray-300 mb-6 italic font-medium leading-relaxed max-w-2xl mx-auto">
+                        Mən, Mahir Baxisov, 44 günlük Vətən Müharibəsi <span class="text-yellow-400 font-extrabold">HƏRBİ ƏLİLİ</span>yəm. 
+                        <span class="font-bold color-green">Bu saytı şəhidlərimiz, qazilərimiz və Dövlətimiz üçün yaratdım.</span> Təmkinli və Vətənimə xidmətə sadiq bir insanam. "Dijital Sanatçı" səhifəmlə bu günə qədər <span class="text-white font-bold">300-dən çox şəhid ailəsinin müraciətini</span> tam təmənnasız şəkildə həyata keçirərək onlara video montaj, fotomontaj və digər rəqəmsal xidmətlər göstərmişəm. Bu gündən sonra da o cür xidmətləri verməyə davam edirəm. Mən hər zaman Vətənimiz üçün, canını fəda edən qəhrəmanlarımız üçün və təmkinli, vətənpərvər insanlar üçün xidmət göstərmişəm.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-8">
+                        <!-- Sosial Media 1 - Keçid aktivdir -->
+                        <a href="https://www.tiktok.com/@mahir_baxisov" target="_blank" class="text-gray-300 hover:text-red-500 transition duration-300 flex items-center justify-center bg-gray-900 p-3 rounded-lg shadow-md hover:scale-105">
+                            <i class="fab fa-tiktok text-3xl mr-2"></i>
+                            <span class="font-semibold text-xl">@mahir_baxisov</span>
+                        </a>
+
+                        <!-- Sosial Media 2 - Keçid aktivdir -->
+                        <a href="https://www.tiktok.com/@dijitalsanatci" target="_blank" class="text-gray-300 hover:text-red-500 transition duration-300 flex items-center justify-center bg-gray-900 p-3 rounded-lg shadow-md hover:scale-105">
+                            <i class="fab fa-tiktok text-3xl mr-2"></i>
+                            <span class="font-semibold text-xl">@dijitalsanatci</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-gray-500 text-sm mt-8 bg-gray-900/50">
+        &copy; 2025. 8 Noyabr Zəfər Günü Anma Səhifəsi. Tərtibat və Təkmilləşdirmə: Mahir Baxisov.
+    </footer>
+</body>
+</html>
